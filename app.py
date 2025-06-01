@@ -1,26 +1,31 @@
 import streamlit as st
 import pandas as pd
-import joblib
 import re
 import matplotlib.pyplot as plt
 import os
 import gdown
+import pickle
 
 # ====== LOAD MODEL DARI GOOGLE DRIVE ======
 @st.cache_resource
 def load_model():
-    import pickle  # Biar aman, kita pakai pickle daripada joblib
-
     os.makedirs("model", exist_ok=True)
-    url = "https://drive.google.com/uc?id=1S_V-gdK4fOOA0PEiFZDN4HMih5DaI0Ug"
+    file_id = "1S_V-gdK4fOOA0PEiFZDN4HMih5DaI0Ug"
     output = "model/random_forest_model.pkl"
-    
+
+    # Download dari GDrive kalau belum ada
     if not os.path.exists(output):
-        gdown.download(url, output, quiet=False)
-    
+        gdown.download(id=file_id, output=output, quiet=False)
+
+    # Tambahan cek ukuran file
+    if os.path.getsize(output) < 10000:
+        st.error("⚠️ File model terlalu kecil. Cek apakah model sudah diset 'Anyone with the link' dan file benar.")
+        st.stop()
+
+    # Load model pakai pickle
     with open(output, "rb") as f:
         model = pickle.load(f)
-    
+
     return model
 
 # ====== PREPROCESSING ======

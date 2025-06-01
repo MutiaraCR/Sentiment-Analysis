@@ -45,8 +45,8 @@ def predict_dataframe(df, model, vectorizer):
     return df
 
 # === Streamlit App ===
-st.set_page_config(page_title="🔍 Sentimen Search", page_icon="💬")
-st.markdown("<h1 style='text-align: center;'>🔍 Sentimen Search Engine</h1>", unsafe_allow_html=True)
+st.set_page_config(page_title="🔍 Sentimen Detection", page_icon="💬")
+st.markdown("<h1 style='text-align: center;'>🔍 Sentimen Analysis Engine</h1>", unsafe_allow_html=True)
 
 model = load_model()
 vectorizer = load_vectorizer()

@@ -9,14 +9,18 @@ import gdown
 # ====== LOAD MODEL DARI GOOGLE DRIVE ======
 @st.cache_resource
 def load_model():
+    import pickle  # Biar aman, kita pakai pickle daripada joblib
+
     os.makedirs("model", exist_ok=True)
-    url = "https://drive.google.com/file/d/1S_V-gdK4fOOA0PEiFZDN4HMih5DaI0Ug/view?usp=sharing"
+    url = "https://drive.google.com/uc?id=1S_V-gdK4fOOA0PEiFZDN4HMih5DaI0Ug"
     output = "model/random_forest_model.pkl"
     
     if not os.path.exists(output):
         gdown.download(url, output, quiet=False)
     
-    model = joblib.load(output)
+    with open(output, "rb") as f:
+        model = pickle.load(f)
+    
     return model
 
 # ====== PREPROCESSING ======
